@@ -1,4 +1,6 @@
-# Healthy Desk: A Timer to Remind Your Lazy Ass to Stand Up!
+# Healthy Desk
+## A Timer to Remind Your Lazy Ass to Stand Up!
+
 https://healthy-desk.vercel.app/
 
 I bought a new desktop because my back was fed up with my old setup. The native timer on my OS wasn't cutting it, so I had a lightbulb moment—why not make this a React project? That's how Healthy Desk was born!
