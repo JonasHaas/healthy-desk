@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Healthy Desk: A Timer to Remind Your Lazy Ass to Stand Up!
+https://healthy-desk.vercel.app/
 
-## Getting Started
+I bought a new desktop because my back was fed up with my old setup. The native timer on my OS wasn't cutting it, so I had a lightbulb moment—why not make this a React project? That's how Healthy Desk was born!
 
-First, run the development server:
+Healthy Desk is my quick, simple solution to keep my lazy ass off the chair. Customize your standing, sitting, and break phases, get audio reminders, and enjoy a sleek interface built with React, Next.js, Tailwind CSS, and DaisyUI. Now, my back is happier, and I'm learning React—win-win!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Project Checklist
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Initial Setup
+- [x] Setting up the project using Next.js with the App Router.
+- [x] Installing and configuring necessary dependencies (React, Next.js, Tailwind CSS, DaisyUI).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## User Interface
+- [x] Designing and implementing the HTML skeleton for the start page and settings page.
+- [x] Styling the application using Tailwind CSS and DaisyUI components.
 
-## Learn More
+## Settings Management
+- [x] Creating a settings page to allow users to customize their timer preferences.
+  - [x] Standing Time (minutes)
+  - [x] Sitting Time (minutes)
+  - [x] Break Time (minutes)
+- [x] Implementing state management for settings using React `useState`.
+- [x] Saving user settings to local storage for persistence across sessions.
+- [x] Loading saved settings from local storage on initial load.
 
-To learn more about Next.js, take a look at the following resources:
+## Timer Functionality
+- [x] Implementing a timer on the start page that displays the remaining time for the current phase.
+- [x] Creating three phases: Standing, Sitting, and Break.
+- [x] Adding controls to start, pause, skip, and redo phases.
+  - [x] Start: Beginning the timer for the current phase.
+  - [x] Pause: Pausing the timer without resetting the remaining time.
+  - [x] Skip: Moving to the next phase immediately.
+  - [x] Redo: Resetting the current phase timer to its full duration.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Audio Notifications
+- [x] Playing an audio alert when a phase timer ends to notify the user.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Dynamic Updates
+- [x] Updating the radial progress bar to reflect the progress of the current phase.
+- [x] Displaying the correct phase name and time remaining dynamically.
 
-## Deploy on Vercel
+## State Management and Optimization
+- [x] Managing component state to ensure the correct initial values are displayed.
+- [x] Implementing conditional rendering to prevent premature display of default values.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Quality of Life Improvements
+- [x] Ensuring the application persists settings and resumes correctly after a reload.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Future Enhancements
+- [ ] Adding additional customization options for users (Volume, etc.)
+- [ ] Enhancing the user interface
+
+## Known Bugs
+- [ ] Initial load shows `30:00` briefly before displaying the custom set time.
