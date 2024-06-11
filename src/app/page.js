@@ -1,6 +1,6 @@
 "use client"; // This directive marks the file as a Client Component
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaCog, FaPlay, FaPause, FaForward, FaRedo } from 'react-icons/fa';
@@ -9,6 +9,11 @@ import { defaultSettings } from '/src/defaults';
 export default function Home() {
 
   const [settings, setSettings] = useState(defaultSettings);
+  const [currentPhase, setCurrentPhase] = useState('standing');
+  const [timeRemaining, setTimeRemaining] = useState(settings.standingTime * 60); // in seconds
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const savedStandingTime = localStorage.getItem('standingTime');
@@ -16,13 +21,84 @@ export default function Home() {
     const savedBreakTime = localStorage.getItem('breakTime');
 
     if (savedStandingTime && savedSittingTime && savedBreakTime) {
-      setSettings({
+      const newSettings = {
         standingTime: parseInt(savedStandingTime),
         sittingTime: parseInt(savedSittingTime),
         breakTime: parseInt(savedBreakTime),
-      });
+      };
+      setSettings(newSettings);
+      setTimeRemaining(newSettings.standingTime * 60);
     }
   }, []);
+
+  useEffect(() => {
+    if (isRunning) {
+      intervalRef.current = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current);
+            handleNextPhase();
+            if (audioRef.current) {
+              audioRef.current.play();
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(intervalRef.current);
+    }
+  }, [isRunning]);
+
+  const handleNextPhase = () => {
+    if (currentPhase === 'standing') {
+      setCurrentPhase('sitting');
+      setTimeRemaining(settings.sittingTime * 60);
+    } else if (currentPhase === 'sitting') {
+      setCurrentPhase('break');
+      setTimeRemaining(settings.breakTime * 60);
+    } else {
+      setCurrentPhase('standing');
+      setTimeRemaining(settings.standingTime * 60);
+    }
+    setIsRunning(false);
+  };
+
+  const handleStartPause = () => {
+    if (isRunning) {
+      setIsRunning(false);
+    } else {
+      setIsRunning(true);
+    }
+  };
+
+  const handleSkip = () => handleNextPhase();
+  const handleRedo = () => {
+    if (currentPhase === 'standing') {
+      setTimeRemaining(settings.standingTime * 60);
+    } else if (currentPhase === 'sitting') {
+      setTimeRemaining(settings.sittingTime * 60);
+    } else {
+      setTimeRemaining(settings.breakTime * 60);
+    }
+    setIsRunning(false);
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
+  const getProgressValue = () => {
+    const totalTime =
+      currentPhase === 'standing'
+        ? settings.standingTime * 60
+        : currentPhase === 'sitting'
+          ? settings.sittingTime * 60
+          : settings.breakTime * 60;
+    return ((totalTime - timeRemaining) / totalTime) * 100;
+  };
 
   return (
     <div className='flex flex-col justify-between min-h-screen max-w-2xl mx-auto'>
@@ -35,24 +111,21 @@ export default function Home() {
         </Link>
       </header>
       <main className="flex flex-col items-center justify-center py-4 px-6">
-        <div className='settings-values'>
-          <p>Standing Time: {settings.standingTime} minutes</p>
-          <p>Sitting Time: {settings.sittingTime} minutes</p>
-          <p>Break Time: {settings.breakTime} minutes</p>
+        <div className='py-4 px-6 '>{currentPhase.toUpperCase()}</div>
+        <div className="radial-progress" style={{ "--value": getProgressValue(), "--size": "15rem", "--thickness": "4px" }} role="progressbar">
+          <div className='text-5xl'>{formatTime(timeRemaining)}</div>
         </div>
-        <div className='py-4 px-6 '>PHASENAME</div>
-        <div className="radial-progress" style={{ "--value": "70", "--size": "15rem", "--thickness": "4px" }} role="progressbar">
-          <div className='text-5xl'>00:00</div>
+        <div className='py-4 px-6'>
+          <button className="btn btn-circle btn-ghost btn-lg text-3xl" onClick={handleStartPause}>
+            {isRunning ? <FaPause /> : <FaPlay />}
+          </button>
         </div>
-        <div className='py-4 px-6'></div>
-        <button className="btn btn-circle btn-ghost btn-lg text-3xl">
-          <FaPlay />
-        </button>
       </main>
       <footer className="flex justify-between items-center gap-5 py-4 px-6">
-        <button className="btn btn-primary"><FaForward /></button>
-        <button className="btn btn-secondary"><FaRedo /></button>
+        <button className="btn btn-primary" onClick={handleSkip}><FaForward /></button>
+        <button className="btn btn-secondary" onClick={handleRedo}><FaRedo /></button>
       </footer>
+      <audio ref={audioRef} src="/alert.mp3" preload="auto" />
     </div>
   );
 }
