@@ -1,23 +1,5 @@
-import localFont from "next/font/local";
 import "./globals.css";
-
-
-const bricolage_grotesque = localFont({
-  src: [
-    {
-      path: '../../public/fonts/BricolageGrotesque-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-      display: 'swap'
-    },
-    {
-      path: '../../public/fonts/BricolageGrotesque-ExtraBold.ttf',
-      weight: '800',
-      style: 'normal',
-      display: 'swap'
-    }
-  ],
-});
+import { bricolage_grotesque } from './fonts'
 
 export const metadata = {
   title: "I Remind Your Lazy Ass to Stand Up!",
