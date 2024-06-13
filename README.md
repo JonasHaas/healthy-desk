@@ -56,3 +56,4 @@ Healthy Desk is my quick, simple solution to keep my lazy ass off the chair. Cus
 
 ## Known Bugs
 - [ ] Initial load shows `30:00` briefly before displaying the custom set time.
+- [ ] Timer stops if tab is not main
