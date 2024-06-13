@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaCog, FaPlay, FaPause, FaForward, FaRedo } from 'react-icons/fa';
+import { FaCog, FaPlay, FaPause, FaForward, FaRedo, FaQuestionCircle } from 'react-icons/fa';
 import { defaultSettings } from '/src/defaults';
 import { rubik_mono_one } from './fonts'
 
@@ -107,12 +107,17 @@ export default function Home() {
         <div className=" flex items-center text-xl font-bold">
           <Image className="mr-1" src="/logo.svg" alt="Logo" width={40} height={40} /><span>HEALTHY DESK</span>
         </div>
-        <Link href="/settings">
-          <FaCog className="text-2xl cursor-pointer" />
-        </Link>
+        <div className='flex gap-4'>
+          <Link href="/help">
+            <FaQuestionCircle className="text-2xl cursor-pointer" />
+          </Link>
+          <Link href="/settings">
+            <FaCog className="text-2xl cursor-pointer" />
+          </Link>
+        </div>
       </header>
       <main className="flex flex-col items-center justify-center py-4 px-6">
-        <div className='py-4 px-6 '>{currentPhase.toUpperCase()}</div>
+        <div className='py-6 px-6 text-xl font-bold'>{currentPhase.toUpperCase()}</div>
         <div className="radial-progress" style={{ "--value": getProgressValue(), "--size": "15rem", "--thickness": "4px" }} role="progressbar">
           <div className={`text-5xl ${rubik_mono_one.className}`}>{formatTime(timeRemaining)}</div>
         </div>
