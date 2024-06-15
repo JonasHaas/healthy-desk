@@ -109,9 +109,9 @@ export default function Home() {
   return (
     <div className='flex flex-col justify-between min-h-screen mx-auto'>
       <header className="flex justify-between items-center py-4 px-6">
-        <div className=" flex items-center text-xl font-bold">
+        <Link href="/" className=" flex items-center text-xl font-bold">
           <Image className="mr-1" src="/logo.svg" alt="Logo" width={40} height={40} /><span>HEALTHY DESK</span>
-        </div>
+        </Link>
         <div className='flex gap-4'>
           <Link href="/help">
             <FaQuestionCircle className="text-2xl cursor-pointer" />
