@@ -37,16 +37,6 @@ export default function SettingsPage() {
       <main className="flex flex-col items-center justify-center py-4 px-6">
         <form className="flex flex-col gap-4 w-full">
           <div className="flex flex-col gap-2">
-            <label htmlFor="sitting" className="text-lg font-semibold text-center">Sitting Time (minutes)</label>
-            <input
-              type="number"
-              id="sitting"
-              className="input input-bordered w-full text-center"
-              value={sittingTime}
-              onChange={(e) => setSittingTime(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
             <label htmlFor="standing" className="text-lg font-semibold text-center">Standing Time (minutes)</label>
             <input
               type="number"
@@ -54,6 +44,16 @@ export default function SettingsPage() {
               className="input input-bordered w-full text-center"
               value={standingTime}
               onChange={(e) => setStandingTime(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="sitting" className="text-lg font-semibold text-center">Sitting Time (minutes)</label>
+            <input
+              type="number"
+              id="sitting"
+              className="input input-bordered w-full text-center"
+              value={sittingTime}
+              onChange={(e) => setSittingTime(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-2">
