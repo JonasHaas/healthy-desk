@@ -13,7 +13,7 @@ export default function Home() {
   const [currentPhase, setCurrentPhase] = useState('sitting');
   const [timeRemaining, setTimeRemaining] = useState(settings.sittingTime * 60); // in seconds
   const [isRunning, setIsRunning] = useState(false);
-  const intervalRef = useRef(null);
+  const workerRef = useRef(null);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -34,21 +34,27 @@ export default function Home() {
 
   useEffect(() => {
     if (isRunning) {
-      intervalRef.current = setInterval(() => {
-        setTimeRemaining((prev) => {
-          if (prev <= 1) {
-            clearInterval(intervalRef.current);
-            handleNextPhase();
-            if (audioRef.current) {
-              audioRef.current.play();
-            }
-            return 0;
+      workerRef.current = new Worker(new URL('../../public/timeworker.js', import.meta.url));
+      workerRef.current.postMessage({ command: 'start', time: timeRemaining });
+
+      workerRef.current.onmessage = (event) => {
+        setTimeRemaining(event.data.timeRemaining);
+        if (event.data.timeRemaining <= 0) {
+          handleNextPhase();
+          if (audioRef.current) {
+            audioRef.current.play();
           }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => clearInterval(intervalRef.current);
+        }
+      };
+    } else if (workerRef.current) {
+      workerRef.current.postMessage({ command: 'stop' });
     }
+
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
+    };
   }, [isRunning]);
 
   const handleNextPhase = () => {
@@ -66,11 +72,7 @@ export default function Home() {
   };
 
   const handleStartPause = () => {
-    if (isRunning) {
-      setIsRunning(false);
-    } else {
-      setIsRunning(true);
-    }
+    setIsRunning(!isRunning);
   };
 
   const handleSkip = () => handleNextPhase();
