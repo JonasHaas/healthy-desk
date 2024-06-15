@@ -27,6 +27,15 @@ export default function SettingsPage() {
     localStorage.setItem('breakTime', breakTime);
   };
 
+  const handleReset = () => {
+    localStorage.removeItem('standingTime');
+    localStorage.removeItem('sittingTime');
+    localStorage.removeItem('breakTime');
+    setStandingTime(defaultSettings.standingTime);
+    setSittingTime(defaultSettings.sittingTime);
+    setBreakTime(defaultSettings.breakTime);
+  };
+
   return (
     <div className='flex flex-col justify-between items-center min-h-screen max-w-2xl mx-auto'>
       <header className="flex justify-between items-center py-4 px-6">
@@ -72,7 +81,8 @@ export default function SettingsPage() {
         <Link href="/">
           <button className="btn btn-primary back-button" onClick={handleSave}>Save</button>
         </Link>
+        <button className="btn btn-warning" onClick={handleReset}>Reset</button>
       </footer>
-    </div>
+    </div >
   );
 }
