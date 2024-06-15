@@ -14,12 +14,6 @@ export default function HelpPage() {
         <section className='text-center'>
           Healthy Desk is my simple & quick solution to keep your lazy ass off the chair. Customize your standing, sitting, and break phases, get audio reminders, and enjoy a sleek interface. Your back will thank you later!
         </section>
-        <section>
-          2
-        </section>
-        <section>
-          3
-        </section>
       </main>
       <footer className="flex justify-between items-center gap-5 py-4 px-6">
         <Link href="/">
