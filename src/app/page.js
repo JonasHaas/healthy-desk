@@ -10,10 +10,8 @@ import { rubik_mono_one } from './fonts'
 export default function Home() {
 
   const [settings, setSettings] = useState(defaultSettings);
-  const [currentPhase, setCurrentPhase] = useState('standing');
-  console.log(settings.standingTime)
-  console.log(currentPhase)
-  const [timeRemaining, setTimeRemaining] = useState(settings.standingTime * 60); // in seconds
+  const [currentPhase, setCurrentPhase] = useState('sitting');
+  const [timeRemaining, setTimeRemaining] = useState(settings.sittingTime * 60); // in seconds
   const [isRunning, setIsRunning] = useState(false);
   const workerRef = useRef(null);
   const audioRef = useRef(null);
@@ -30,7 +28,7 @@ export default function Home() {
         breakTime: parseInt(savedBreakTime),
       };
       setSettings(newSettings);
-      setTimeRemaining(newSettings.standingTime * 60);
+      setTimeRemaining(newSettings.sittingTime * 60);
     }
   }, []);
 
@@ -61,15 +59,15 @@ export default function Home() {
 
 
   const handleNextPhase = () => {
-    if (currentPhase === 'standing') {
-      setCurrentPhase('sitting');
-      setTimeRemaining(settings.sittingTime * 60);
-    } else if (currentPhase === 'sitting') {
+    if (currentPhase === 'sitting') {
+      setCurrentPhase('standing');
+      setTimeRemaining(settings.standingTime * 60);
+    } else if (currentPhase === 'standing') {
       setCurrentPhase('break');
       setTimeRemaining(settings.breakTime * 60);
     } else {
-      setCurrentPhase('standing');
-      setTimeRemaining(settings.standingTime * 60);
+      setCurrentPhase('sitting');
+      setTimeRemaining(settings.sittingTime * 60);
     }
     setIsRunning(false);
   };
