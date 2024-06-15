@@ -1,5 +1,5 @@
 export const defaultSettings = {
-  sittingTime: 30,
-  standingTime: 15,
+  standingTime: 30,
+  sittingTime: 15,
   breakTime: 5,
 };
