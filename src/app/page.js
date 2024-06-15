@@ -118,8 +118,8 @@ export default function Home() {
           </Link>
         </div>
       </header>
-      <main className="flex flex-col items-center justify-center py-4 px-6">
-        <div className='py-6 px-6 text-xl font-bold'>{currentPhase.toUpperCase()}</div>
+      <main className="flex flex-col items-center justify-center py-4 px-6 gap-4 lg:gap-10">
+        <div className='py-6 px-6 text-xl lg:text-3xl font-bold'>{currentPhase.toUpperCase()}</div>
         <div className="radial-progress" style={{ "--value": getProgressValue(), "--size": "15rem", "--thickness": "4px" }} role="progressbar">
           <div className={`text-5xl ${rubik_mono_one.className}`}>{formatTime(timeRemaining)}</div>
         </div>
