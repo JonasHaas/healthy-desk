@@ -10,8 +10,8 @@ import { rubik_mono_one } from './fonts'
 export default function Home() {
 
   const [settings, setSettings] = useState(defaultSettings);
-  const [currentPhase, setCurrentPhase] = useState('sitting');
-  const [timeRemaining, setTimeRemaining] = useState(settings.sittingTime * 60); // in seconds
+  const [currentPhase, setCurrentPhase] = useState('standing');
+  const [timeRemaining, setTimeRemaining] = useState(settings.standingTime * 60); // in seconds
   const [isRunning, setIsRunning] = useState(false);
   const workerRef = useRef(null);
   const audioRef = useRef(null);
@@ -58,14 +58,14 @@ export default function Home() {
   }, [isRunning]);
 
   const handleNextPhase = () => {
-    if (currentPhase === 'sitting') {
-      setCurrentPhase('standing');
+    if (currentPhase === 'standing') {
+      setCurrentPhase('sitting');
       setTimeRemaining(settings.standingTime * 60);
-    } else if (currentPhase === 'standing') {
+    } else if (currentPhase === 'sitting') {
       setCurrentPhase('break');
       setTimeRemaining(settings.breakTime * 60);
     } else {
-      setCurrentPhase('sitting');
+      setCurrentPhase('standing');
       setTimeRemaining(settings.sittingTime * 60);
     }
     setIsRunning(false);
